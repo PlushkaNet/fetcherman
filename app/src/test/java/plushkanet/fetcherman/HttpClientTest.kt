@@ -9,9 +9,11 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.io.ByteArrayOutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.nio.charset.Charset
+import java.util.concurrent.atomic.AtomicReference
 
 class HttpClientTest {
 
@@ -265,6 +267,54 @@ class HttpClientTest {
 
         assertTrue(response.error)
         assertTrue(response.text.contains("exception"))
+        assertEquals("", response.headers)
+    }
+
+    @Test
+    fun connectMethodGetsTunnelResponse() = runBlocking {
+        val server = ServerSocket().apply { bind(InetSocketAddress("127.0.0.1", 0)) }
+        val port = server.localPort
+        val requestLine = AtomicReference<String>()
+        val threadError = AtomicReference<Throwable?>()
+        val thread = Thread {
+            try {
+                server.accept().use { socket ->
+                    val received = ByteArrayOutputStream()
+                    val buffer = ByteArray(1024)
+                    while (!received.toString(Charsets.ISO_8859_1).contains("\r\n\r\n")) {
+                        val n = socket.getInputStream().read(buffer)
+                        if (n < 0) break
+                        received.write(buffer, 0, n)
+                    }
+                    requestLine.set(received.toString(Charsets.ISO_8859_1))
+                    socket.getOutputStream().write(
+                        "HTTP/1.1 200 Connection Established\r\n\r\n".toByteArray(Charsets.ISO_8859_1),
+                    )
+                }
+            } catch (t: Throwable) {
+                threadError.set(t)
+            }
+        }.apply { start() }
+
+        val response = try {
+            HttpClient.request("CONNECT", "http://127.0.0.1:$port/tunnel", null)
+        } finally {
+            thread.join(5000)
+            server.close()
+        }
+
+        threadError.get()?.let { throw it }
+        assertFalse(response.error)
+        assertTrue(requestLine.get().startsWith("CONNECT 127.0.0.1:$port HTTP/1.1"))
+        assertTrue(response.text.startsWith("HTTP/1.1 200"))
+        assertTrue(response.text.contains("Connection Established"))
+    }
+
+    @Test
+    fun connectWithoutHostYieldsErrorResponse() = runBlocking {
+        val response = HttpClient.request("CONNECT", "not a url", null)
+
+        assertTrue(response.error)
         assertEquals("", response.headers)
     }
 

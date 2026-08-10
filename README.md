@@ -67,9 +67,14 @@ native libs.
 - **Charset handling:** The body is decoded using the `charset` from `Content-Type`;
   if the charset is unknown or missing, UTF-8 is used. Saving as TXT always writes UTF-8.
 
-- **Gzip-encoded responses are not decompressed:** The client does not advertise
-  `Accept-Encoding`, so most servers send plain content; if a server still sends a
-  `Content-Encoding: gzip` body, the saved/displayed text will be binary garbage.
+- **The request body must be valid JSON:** it is parsed before sending; an unparseable
+  body (plain text, malformed JSON) fails the request with an error instead of being
+  sent as-is.
 
 - **Requests are cancelled when a new one starts:** or the activity is destroyed (the
   response state survives screen rotation, but not process death).
+
+- **`CONNECT` is implemented over a raw socket:** `HttpURLConnection` does not support it, so
+  the client opens a plain TCP connection to the URL host:port and sends a bare
+  `CONNECT host:port HTTP/1.1` request. The response is the status line plus response
+  headers; no tunnel body is read afterwards.

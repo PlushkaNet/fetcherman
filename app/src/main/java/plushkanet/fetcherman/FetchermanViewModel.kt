@@ -47,7 +47,7 @@ class FetchermanViewModel(application: Application) : AndroidViewModel(applicati
 
     private suspend fun pingMessage(url: String): ResponseState.Message {
         val context = getApplication<Application>()
-        if (url.isBlank()) {
+        if (url.isBlank() || Ping.extractHost(url).isBlank()) {
             return ResponseState.Message(context.getString(R.string.address_must_not_be_empty))
         }
         return when (val result = Ping.ping(url)) {
