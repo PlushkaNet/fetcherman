@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fetcherman</string>
+    <string name="title">Fetcherman</string>
+    <string name="url_label">URL</string>
+    <string name="data_label">data</string>
+    <string name="method_label">method</string>
+    <string name="format_label">format</string>
+    <string name="request_button">request</string>
+    <string name="ping_button">PING</string>
+    <string name="no_response_yet">no response yet</string>
+    <string name="txt_button">txt</string>
+    <string name="headers_button">headers</string>
+    <string name="save_button">save</string>
+    <string name="ok_button">OK</string>
+    <string name="toggle_theme_light">switch to light theme</string>
+    <string name="toggle_theme_dark">switch to dark theme</string>
+    <string name="address_must_not_be_empty">address must not be empty</string>
+    <string name="got_response_in_ms">got response in %1$dms</string>
+    <string name="ping_timeout">no response (timeout)</string>
+    <string name="server_unreachable">server unreachable</string>
+    <string name="saved_to">saved to %1$s</string>
+    <string name="save_failed_open_stream">save failed: could not open output stream</string>
+    <string name="save_failed">save failed: %1$s</string>
+</resources>
