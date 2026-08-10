@@ -108,7 +108,7 @@ object HttpClient {
                     bytes[bytes.size - 2] == '\r'.code.toByte() &&
                     bytes[bytes.size - 1] == '\n'.code.toByte()
             }
-            val headerText = headerBytes.toString(Charsets.ISO_8859_1)
+            val headerText = headerBytes.toByteArray().toString(Charsets.ISO_8859_1)
             val status = statusLine.find(headerText)?.groupValues?.get(1)?.toIntOrNull()
             NetworkResponse(
                 error = status == null,

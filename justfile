@@ -9,3 +9,6 @@ test-ping:
 
 install-debug:
     ./gradlew installDebug
+
+build:
+    ./gradlew build
