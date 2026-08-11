@@ -4,6 +4,17 @@ A cURL-like HTTP utility for Android. Enter a URL, pick a method, make the reque
 the raw response (body, headers, content type) and save it to a file — or ping a host with a
 real ICMP echo and see the round-trip time.
 
+## 🖼️ Images
+
+<div style="display: flex; flex-direction: horizontal; gap: 10px;">
+  <img src="./assets/dark.jpg" alt="Fetcherman dark" width="20%" height="auto">
+  <img src="./assets/light.jpg" alt="Fetcherman light" width="20%" height="auto">
+</div>
+
+## 📥 Downloading
+
+APK files can be found on [releases page](https://github.com/PlushkaNet/fetcherman/releases)
+
 ## ✨ Features
 
 - 🌐 HTTP requests with `GET`, `POST`, `PUT`, `OPTIONS`, `DELETE`, `PATCH`, `HEAD`, `TRACE`, `CONNECT`
@@ -16,7 +27,7 @@ real ICMP echo and see the round-trip time.
 
 Ping details worth knowing up front:
 
-- **Ping is ICMP, not HTTP, and the URL port is ignored:** `Ping` extracts the hostname
+- **Ping is ICMP, not HTTP, and the URL port is ignored:** `ping` extracts the hostname
   from the URL (scheme, path, query, userinfo and port are stripped; bracketed IPv6 like
   `http://[::1]:8080/` is handled). It then sends an ICMP echo to that host — a web
   server on port 8080 does not matter to it.
@@ -45,8 +56,7 @@ Build, test and install:
 just tests                         # 🔁 same as testDebugUnitTest (if you use just)
 ```
 
-The app targets 📱 minSdk 26 (Android 8.0) and ships `arm64-v8a`, `armeabi-v7a`, `x86_64`
-native libs.
+The app targets 📱 minSdk 26 (Android 8.0) and ships `arm64-v8a`, `armeabi-v7a` native libs.
 
 ## ⚠️ Non-obvious behavior
 
@@ -78,3 +88,11 @@ native libs.
   the client opens a plain TCP connection to the URL host:port and sends a bare
   `CONNECT host:port HTTP/1.1` request. The response is the status line plus response
   headers; no tunnel body is read afterwards.
+
+## ✏️ Contributing
+
+Bug reports, feature requests and pull requests are welcome — feel free to open issues and PRs.
+
+## License
+
+[ISC](./LICENSE)
