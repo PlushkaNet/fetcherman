@@ -93,6 +93,6 @@ The app targets 📱 minSdk 26 (Android 8.0) and ships `arm64-v8a`, `armeabi-v7a
 
 Bug reports, feature requests and pull requests are welcome — feel free to open issues and PRs.
 
-## License
+## 📄 License
 
 [ISC](./LICENSE)
